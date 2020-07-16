@@ -6,12 +6,22 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stephan-mueller_payara-showcase&metric=alert_status)](https://sonarcloud.io/dashboard?id=stephan-mueller_payara-showcase)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=stephan-mueller_payara-showcase&metric=coverage)](https://sonarcloud.io/dashboard?id=stephan-mueller_payara-showcase)
 
-This is a project based on the microservice framework [Payara Micro](https://www.payara.fish/products/payara-micro/). It contains a hello world application, which demonstrates features of Payara Micro and Eclipse Microprofile
+This is a project based on the microservice framework [Payara Micro](https://www.payara.fish/products/payara-micro/). 
+It contains a hello world application, which demonstrates features of Payara Micro and Eclipse Microprofile
 
 Software requirements to run the samples are `maven`, `openjdk-1.8` (or any other 1.8 JDK) and `docker`.
 When running the Maven lifecycle it will create the war package. The war will be copied into a
 Docker image using Spotify's `dockerfile-maven-plugin` during the package phase.
 
+**Notable Features:**
+* Dockerfiles for runnable JAR & Server
+* Integration of MP Health, MP Metrics and MP OpenAPI
+* Testcontainer-Tests with Rest-Assured, Cucumber and Postman/newman
+* Code-Coverage for Testcontainer-Tests
+* [CircleCI](https://circleci.com) Integration
+* [Sonarcloud](https://sonarcloud.io) Integration
+
+## How to run
 
 Before running the application it needs to be compiled and packaged using Maven. It creates the required war,
 jar and Docker image and can be run via `docker`:
