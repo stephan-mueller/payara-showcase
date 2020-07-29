@@ -1,11 +1,19 @@
+# 1st stage, build the war
+FROM maven:3.6.3-jdk-11 as build
+WORKDIR /build
+
+COPY ./pom.xml pom.xml
+RUN mvn dependency:go-offline --file pom.xml -B
+
+COPY . .
+RUN mvn --batch-mode -DskipTests=true -Ddockerfile.skip --file pom.xml clean package
+
+
+# 2nd stage, build the runtime image
 FROM payara/micro
 
-ARG WAR_FILE=payara-showcase.war
+COPY --from=build /build/target/payara-showcase.war $DEPLOY_DIR
 
-COPY target/$WAR_FILE $DEPLOY_DIR
-
-HEALTHCHECK --start-period=10s --timeout=60s --retries=10 --interval=5s CMD curl -f http://localhost:9990/health/ready || exit 1
-
-ENV JAVA_OPTS="-Djboss.server.default.config=standalone-microprofile.xml"
+HEALTHCHECK --start-period=10s --timeout=60s --retries=10 --interval=5s CMD curl -f http://localhost:8080/health/ready || exit 1
 
 CMD ["--deploymentDir", "/opt/payara/deployments", "--contextroot", "/"]

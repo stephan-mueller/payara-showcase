@@ -7,7 +7,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=stephan-mueller_payara-showcase&metric=coverage)](https://sonarcloud.io/dashboard?id=stephan-mueller_payara-showcase)
 
 This is a project based on the microservice framework [Payara Micro](https://www.payara.fish/products/payara-micro/). 
-It contains a hello world application, which demonstrates features of Payara Micro and Eclipse Microprofile
+It contains a hello world application, which demonstrates features of Payara Micro and Eclipse Microprofile.
 
 Software requirements to run the samples are `maven`, `openjdk-1.8` (or any other 1.8 JDK) and `docker`.
 When running the Maven lifecycle it will create the war package. The war will be copied into a
@@ -17,27 +17,33 @@ Docker image using Spotify's `dockerfile-maven-plugin` during the package phase.
 * Dockerfiles for runnable JAR & Server
 * Integration of MP Health, MP Metrics and MP OpenAPI
 * Testcontainer-Tests with Rest-Assured, Cucumber and Postman/newman
-* Code-Coverage for Testcontainer-Tests
 * [CircleCI](https://circleci.com) Integration
 * [Sonarcloud](https://sonarcloud.io) Integration
 
+
 ## How to run
 
-Before running the application it needs to be compiled and packaged using Maven. It creates the required war,
-jar and Docker image and can be run via `docker`:
+Before running the application it needs to be compiled and packaged using `Maven`. It creates the runnable jar and Docker image and can be 
+run via `docker`:
 
 ```shell script
 $ mvn clean package
 $ docker run --rm -p 8080:8080 payara-showcase
 ```
 
+For the Payara Server a multi-stage Docker image is provided. It can be created and run via `docker`:    
+```shell script
+$ docker build -f Dockerfile.server -t payara-server-showcase .
+$ docker run --rm -p 8080:8080 payara-server-showcase
+```
+
 Wait for a message log similar to this:
 
 > [2020-07-14T17:39:34.789+0200] [] [INFO] [] [PayaraMicro] [tid: _ThreadID=1 _ThreadName=main] [timeMillis: 1594741174789] [levelValue: 800] Payara Micro  5 #badassmicrofish (build 547) ready in 7.127 (ms)
 
-If everything worked you can access the OpenAPI UI via http://localhost:8080/swagger-ui.
+If everything worked you can access the OpenAPI UI via [http://localhost:8080/swagger-ui](http://localhost:8080/swagger-ui).
 
-## Resolving issues
+### Resolving issues
 
 Sometimes it may happen that the containers did not stop as expected when trying to stop the pipeline early. This may
 result in running containers although they should have been stopped and removed. To detect them you need to check
