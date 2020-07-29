@@ -58,3 +58,55 @@ If there are containers remaining although the application has been stopped you 
 ```shell script
 $ docker rm <ids of the containers>
 ```
+
+
+## Features
+
+### Application 
+
+The application is a very simple "Hello World" greeting service. It supports GET requests for generating a greeting message, and a PUT 
+request for changing the greeting itself. The response is encoded using JSON.
+
+Try the application
+```shell script
+curl -X GET http://localhost:8080/api/greet
+{"message":"Hello World!"}
+
+curl -X GET http://localhost:8080/api/greet/Stephan
+{"message":"Hello Stephan!"}
+
+curl -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Hola"}' http://localhost:8080/api/greet/greeting
+
+curl -X GET http://localhost:8080/api/greet/greeting
+{"greeting":"Hola"}
+
+curl -X GET http://localhost:8080/api/greet/Max
+{"message":"Hola Max!"}
+```
+
+### Health, Metrics and OpenAPI
+
+The application server provides built-in support for health, metrics and openapi endpoints.
+
+Health liveness and readiness
+```shell script
+curl -s -X GET http://localhost:8080/health
+
+curl -s -X GET http://localhost:8080/health/live
+
+curl -s -X GET http://localhost:8080/health/ready
+```
+
+Metrics in Prometheus / JSON Format
+```shell script
+curl -s -X GET http://localhost:8080/metrics
+
+curl -H 'Accept: application/json' -X GET http://localhost:8080/metrics
+```
+
+OpenAPI in YAML / JSON Format
+```shell script
+curl -s -X GET http://localhost:8080/openapi
+
+curl -H 'Accept: application/json' -X GET http://localhost:8080/openapi
+```
