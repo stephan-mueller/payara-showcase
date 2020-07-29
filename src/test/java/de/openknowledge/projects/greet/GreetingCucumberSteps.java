@@ -33,11 +33,11 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
 /**
- * Step Definitions for the cucumber test {@link GreetResourceCucumberIT}.
+ * Step Definitions for the cucumber test {@link GreetingCucumberIT}.
  */
-public class GreetResourceCucumberSteps {
+public class GreetingCucumberSteps extends AbstractIntegrationTest {
 
-  private static final Logger LOG = LoggerFactory.getLogger(GreetResourceCucumberSteps.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GreetingCucumberSteps.class);
 
   private RequestSpecification requestSpecification;
 
@@ -45,11 +45,10 @@ public class GreetResourceCucumberSteps {
 
   @Before
   public void beforeScenario() {
-    GenericContainer<?> container = GreetResourceCucumberTestContainerBaseClass.getContainer();
-    container.withLogConsumer(new Slf4jLogConsumer(LOG));
+    APPLICATION.withLogConsumer(new Slf4jLogConsumer(LOG));
 
     requestSpecification = new RequestSpecBuilder()
-        .setPort(container.getFirstMappedPort())
+        .setPort(APPLICATION.getFirstMappedPort())
         .build();
   }
 
